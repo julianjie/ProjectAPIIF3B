@@ -32,7 +32,17 @@ class FakultasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'nama' => 'required|unique:fakultas'
+        ]);
+
+        $fakultas = Fakultas::create($validate);
+        if($fakultas){
+            $response['success']= true;
+            $response['message']= 'fakultas berhasil ditambahkan.';
+            $response['result'] = $fakultas;
+            return response()->json($response,Response::HTTP_CREATED);
+        }
     }
 
     /**

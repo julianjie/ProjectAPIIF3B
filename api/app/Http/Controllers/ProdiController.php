@@ -32,7 +32,18 @@ class ProdiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'nama' => 'required|unique:prodis',
+            'fakultas_id' => 'required'
+        ]);
+
+        $prodi = Prodi::create($validate);
+        if($prodi){
+            $response['success']= true;
+            $response['message']= 'Prodi berhasil ditambahkan.';
+            $response['result'] = $prodi;
+            return response()->json($response,Response::HTTP_CREATED);
+        }
     }
 
     /**
